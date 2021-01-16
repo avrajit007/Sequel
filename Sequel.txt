@@ -1,0 +1,47 @@
+#To create a database
+create database Test_data #select all the press execute or F5
+
+#To create a table 'emp' in the database 'Test_data'
+use Test_data
+create table emp
+(
+emp_id int,
+last_name varchar(50) NOT NULL, #not null- to make entry in the column mandatory
+first_name varchar(50) NOT NULL,
+); 
+
+#Alter table
+alter table emp add age int #to add a new column with datatype INT
+
+alter table emp drop column last_name #to delete a column (dont mention data type here, else error)
+
+alter table emp alter column age numeric(10) #to alter the 'datatype' the column
+
+#To delete a table
+drop table emp;
+
+#To create a primary key
+create table test1    #name of the new table is 'test1'
+(
+emp_id int primary key,
+last_name varchar(50) NOT NULL,
+first_name varchar(50) NOT NULL,
+);
+
+#OR (this method is used to make multiple columns, the primary key)
+create table test2    #name of the table is 'test2'
+(
+emp_id int,
+last_name varchar(50) NOT NULL,
+first_name varchar(50) NOT NULL,
+constraint emp_pk primary key (emp_id)  #the name of the constraint is 'emp_pk', table name is 'emp_id'
+);
+
+create table test3
+(
+emp_id int,
+last_name varchar(50) NOT NULL,
+first_name varchar(50) NOT NULL,
+constraint emp_pk1 primary key (last_name, first_name) #both 'last_name, first_name' is the Primary Key i.e. Candidate key
+);
+
