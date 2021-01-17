@@ -95,3 +95,28 @@ INSERT INTO dept1 (dept_no, dept_name,location) SELECT * FROM dept;             
 INSERT INTO dept1 (dept_no,dept_name) SELECT dept_name FROM dept;                         #to copy only values of specific columns like 'dept_name' column
 INSERT INTO dept1 (dept_no, dept_name,location) SELECT * FROM dept WHERE dept_no > 10;    #to copy selctive data
 
+#To UPDATE data in a table (modify existing data- very important to provide condition, else all rows will be affected)
+create table lords
+(dept_no INT NOT NULL,
+dept_name varchar(50),
+location varchar(50)
+);                                                          #new table named 'lords' created and 4 values were inserted
+insert into lords values (10,'accounts','MAA');
+insert into lords values (20,'HR','BOM');
+insert into lords values (30,'IT','BLR');
+insert into lords values (10,'marketing','CCU');
+
+UPDATE lords SET dept_name = 'sales' where dept_no = 20;    #modified the value in 'dept_name' column where 'dept_no' is 20
+
+#To DELETE rows/records (condition giving is important else all the records will be deleted)
+DELETE FROM lords WHERE dept_no = 30;      #entire row is deleted from table 'lords' whose 'dept_no' is '30'
+
+#To SELECT (fetch) datas from a table
+SELECT * FROM lords;                                        #to retrieve all rows & all columns
+SELECT TOP(2) * FROM lords;                                 #to retrieve all columns & top 2 rows
+SELECT dept_no, location FROM lords;                        #to select required columns & all rows
+SELECT dept_no AS Department_number, location FROM lords;   #to provide an alias to the selected column, here 'dept_no' given an alias of 'Department_number'
+SELECT * FROM lords ORDER BY dept_no ASC;                   #to select only the unique values in column 'dept_no' in ascending order
+SELECT * FROM lords ORDER BY dept_no DESC;                  #to select only the unique values in column 'dept_no' in decending order
+SELECT TOP(2) * FROM lords ORDER BY dept_no DESC;           #to retrieve all columns & bottom 2 rows
+
