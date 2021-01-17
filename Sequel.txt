@@ -45,3 +45,28 @@ first_name varchar(50) NOT NULL,
 constraint emp_pk1 primary key (last_name, first_name) #both 'last_name, first_name' is the Primary Key i.e. Candidate key
 );
 
+#To create primary key later, after creating the table
+alter table emp1 add constraint emp_pk2 primary key (emp_id);  #'emp_pk2' is the name of the constraint (but create the 'emp1' table first)
+                                                               #NOTE- this method can be only used if it was specified that column 'emp_id' is NOT NULL
+
+#Foreign key- create a panent table (product) first then create a constraint in the child table (orders)
+create table product
+(prod_id int primary key,
+prod_name varchar(50) not null,
+category varchar(50));
+
+create table orders
+(order_id int primary key,
+prod_id int not null,
+quantity int,
+constraint prod_fk              #'prod_fk' is the name of the constraint
+foreign key (prod_id)           #name of the column of the child table (orders)
+references product (prod_id)    # name of the parent table (product) which is referenced & name of the column of the parent table (prod_id)
+);
+
+#To create foreign key once the table has been created already
+alter table order               #dont use the same child table 'order', create a child table of new name
+add constraint prod_fk1         #the name of the constraint 'prod_fk1' has to be new
+foreign key (prod_id)           #the datatype of the 'column of the parent table' &'column of the child table' has to be same
+references product (prod_id);
+
