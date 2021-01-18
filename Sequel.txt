@@ -120,3 +120,35 @@ SELECT * FROM lords ORDER BY dept_no ASC;                   #to select only the 
 SELECT * FROM lords ORDER BY dept_no DESC;                  #to select only the unique values in column 'dept_no' in decending order
 SELECT TOP(2) * FROM lords ORDER BY dept_no DESC;           #to retrieve all columns & bottom 2 rows
 
+#FILTERING (LOGICAL: AND, OR, NOT)
+SELECT * FROM lords WHERE dept_no = 10 AND dept_name = 'sales';                #use of 'AND' operator
+SELECT * FROM lords WHERE dept_no = 10 OR dept_name = 'sales';                 #use of 'OR' operator
+SELECT * FROM lords WHERE location NOT IN ('CCU');                             #use of 'NOT' operator
+SELECT dept_no, location FROM lords WHERE location NOT IN ('MAA', 'CCU');      #use of 'NOT IN' operator/ opposite of 'IN' operator
+
+#FILTERING (COMPARISION: =, !=, >, <, >=, <=, LIKE, BETWEEN, IN)
+create table employee
+(emp_id int primary key,
+first_name varchar(50) not null,
+last_name varchar(50) not null,
+manager_no int,
+phn_no int,
+hire_date date,
+job varchar(50),
+dept_no int,
+salary int
+);                                                                                                     #create a table 'employee' first & insert 9 values into each column
+insert into employee values (101, 'Avra', 'Dey', null, null, null, 'j7', 10, null);
+insert into employee values (102, 'Deepu', 'Nayak', 1001, null, null, 'j2', 10, null);
+insert into employee values (103, 'Soumava', 'Banerjee', 1001, null, null, 'j3', 10, null);
+insert into employee values (104, 'Subha', 'Mitra', null, null, '2020-10-23', 'j4', 20, 40000);
+insert into employee values (105, 'Ankana', 'Chaudhury', 1004, null, '2019-03-01', 'j5', 20, null);
+insert into employee values (106, 'Gargi', 'Prasad', 1001, null, '2019-07-01', 'j6', 30, 38000);
+insert into employee values (107, 'Nayan', 'Chak', 1006, null, '2016-09-14', 'j1', 10, 28000);
+insert into employee values (108, 'Bikko', 'Ghosh', 1006, null, null, 'j8', 40, null);
+insert into employee values (109, 'Soyel', 'Ghosh', null, null, null, 'j7', 30, null);
+
+SELECT * FROM employee WHERE salary BETWEEN 30000 AND 40000;                                           #use of 'BETWEEN' & 'AND' operator, returns two rows 'subha' & 'gargi'
+SELECT * FROM lords WHERE location IN ('MAA', 'CCU');                                                  #use of 'IN' operator
+SELECT * FROM employee WHERE salary > 20000;                                                           #use of ' > ' operator, returns 3 records(gargi, subha, nayan)
+SELECT * FROM employee WHERE salary >= 40000;                                                          #use of ' >= ' operator, returns 1 record(subha)
