@@ -256,3 +256,74 @@ select MIN (dept_no) FROM lords;
 select MAX (dept_no) FROM lords;
 select SUM (dept_no) FROM lords;
 select COUNT (dept_no) FROM lords;
+
+select REPLACE ('abcdef', 'ab', 'xy');                                        #STRING function, replaces 'ab' with 'xy' in 'abcdef
+select SUBSTRING ('abcdef', 2, 3);                                            #from 2nd letter counts 3 and shows output, returns 'bcd'
+select LEFT ('abcdef', 2);                                                    #from LEFT shows 1st two letters
+select RIGHT ('abcdef', 2);                                                   #from RIGHT shows 1st two letters
+select REVERSE ('abcde');                                                     #returns 'edcba'
+select LTRIM ('       abcd      ');                                           #removes 'spaces' on the 'left' side
+select RTRIM ('       abcd      ');                                           #removes 'spaces' on the 'right' side
+select UPPER ('abc');                                                         #returns 'ABC'
+select LOWER ('ABC');                                                         #returns 'abc'
+
+select DATEPART (mm, '16-dec-2020');                                          #returns 12, as 'dec' is the 12th month
+select DATEADD (dd, 2, '2020-12-23');                                         #adds 2 days, returns '25th dec 2020'
+
+#Stored Procedure (Statements that ared created & stored in the database)
+CREATE PROCEDURE dbo.getdetails
+AS  
+select * from lords
+GO                                                                            #stored procedure created [NOTE: dont end with semi-colon(;)
+EXEC dbo.getdetails;                                                          #to 'execute' the stored procedure
+
+CREATE PROCEDURE dbo.getdetails1
+@dept_no Nvarchar(50)
+AS
+select * from lords
+WHERE dept_no = @dept_no
+GO                                                                            #stored procedure with a single parameter 'dept_no'
+EXEC dbo.getdetails1 @dept_no = 20;                                           #returns 'BOM' & 'sales'
+
+CREATE PROCEDURE dbo.getdetails2
+@dept_no Nvarchar(50), @dept_name Nvarchar(50)
+AS
+select * from lords
+WHERE dept_no = @dept_no AND dept_name = @dept_name
+GO                                                                            #stored procedure with 2 parameters
+EXEC dbo.getdetails2 @dept_no = 20, @dept_name = 'sales';                     #to execute 2 parameters
+
+#USER DEFINED functions
+#SCALER functions
+CREATE FUNCTION no_para()
+RETURNS int AS
+BEGIN
+RETURN (select SUM(salary) FROM employee)
+END;
+select dbo.no_para();                                                                      #to run the SCALER function 'dbo.no_para' having no parameter
+
+ALTER FUNCTION no_para()
+RETURNS int AS
+BEGIN
+RETURN (select AVG(salary) FROM employee)
+END;
+select dbo.no_para();                                                                      #to ALTER the previous function 'no_para' from 'sum' to 'average'                                     
+CREATE FUNCTION full_name (@first_name varchar(50), @last_name varchar(50))
+RETURNS varchar(100) AS
+BEGIN
+RETURN (select @first_name + space(2) + @last_name)
+END;
+select dbo.full_name ('Avrajit', 'Dey');                                                   #SCALER function with parameters 'first_name' & 'last_name'
+
+#Inline TABLE-VALUED functions
+CREATE FUNCTION top_5()
+RETURNS TABLE AS
+RETURN (select top 5 * FROM employee);
+select * from dbo.top_5();                                                                 #top 5 names from the table 'employee'
+
+CREATE FUNCTION top_2(@emp_id int)
+RETURNS TABLE AS
+RETURN (select top 2 * FROM employee WHERE emp_id > @emp_id);
+select * from dbo.top_2 (102);                                                             #top 2 names from table 'employee' whose emp_id > 102, returns 103 & 104
+
+
