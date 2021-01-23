@@ -222,3 +222,37 @@ FULL OUTER JOIN orderss
 ON employ.emp_id = orderss.emp_id
 ORDER BY employ.emp_id;                                                       ##appyling 'FULL OUTER JOIN', returns 7 rows
 
+SELECT employ.emp_id, orderss.order_id, orderss.order_date
+FROM employ
+CROSS JOIN orderss
+ORDER BY employ.emp_id;                                                       #applying 'CROSS JOIN', shows output of 30 abservation as 'employ' table has 6 records and 'orderss' has 5
+
+#BUILT-IN functions (COVERSION, LOGICAL, MATH, AGGREGATE, STRING, DATE)
+select CAST ('10' AS int) * 20 AS casting,
+       CONVERT (int,'10') * 20 AS converting;                                 #CONVERSION (CAST & CONVERT) functions, converts 10 into integer even though it is in inverted comma & multiply by 20
+
+select TRY_CAST ('A' AS int) * 20 AS tcasting,
+       TRY_CONVERT (int,'A') * 20 AS tconverting;                             #CONVERSION (TRY_CAST & TRY_CONVERT), retuns NULL but do not show error message
+
+select CHOOSE (3, 'avra', 'deepu', 'subha', 'soumava');                       #LOGICAL (CHOOSE) function, returns 'subha'
+
+select IIF (1>10, 'True', 'False');                                           #LOGICAL (IIF) function, returns 'False'
+select IIF (1>10, 'avra', 'deepu');                                           #returns 'deepu'
+select IIF (1>10, 'True', 'False') AS result;                                 #header 'result' will show
+
+select ABS(-10);                                                              #MATH funtion (absolute value)
+select RAND(0.7);                                                             #returns a pseudo-random float value
+select EXP(-5);                                                               #exponential of (-5)
+select ROUND(6.666666666, 3);                                                 #upto 3 decimal place
+select FLOOR(4.66);                                                           #returns 4
+select CEILING(4.66);                                                         #returns 5
+select SIGN(-6);                                                              #returns -1 (shows positive OR negative values)
+select SQUARE(-15);                                                           #returns 225
+select SQRT(225);                                                             #returns 15
+select POWER(-2,3);                                                           #returns 8
+
+select AVG (dept_no) FROM lords;                                              #AGGREGATE function (AVERAGE), returns 13 
+select MIN (dept_no) FROM lords;
+select MAX (dept_no) FROM lords;
+select SUM (dept_no) FROM lords;
+select COUNT (dept_no) FROM lords;
