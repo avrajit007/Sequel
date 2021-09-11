@@ -108,25 +108,25 @@ insert into lords values (10,'marketing','CCU');
 
 UPDATE lords SET dept_name = 'sales' where dept_no = 20;                                                      --modified the value in 'dept_name' column where 'dept_no' is 20
 
-#To DELETE rows/records (condition giving is important else all the records will be deleted)
+--To DELETE rows/records (condition giving is important else all the records will be deleted)
 DELETE FROM lords WHERE dept_no = 30;      #entire row is deleted from table 'lords' whose 'dept_no' is '30'
 
-#To SELECT (fetch) datas from a table
-SELECT * FROM lords;                                        #to retrieve all rows & all columns
-SELECT TOP(2) * FROM lords;                                 #to retrieve all columns & top 2 rows
-SELECT dept_no, location FROM lords;                        #to select required columns & all rows
-SELECT dept_no AS Department_number, location FROM lords;   #to provide an alias to the selected column, here 'dept_no' given an alias of 'Department_number'
-SELECT * FROM lords ORDER BY dept_no ASC;                   #to select only the unique values in column 'dept_no' in ascending order
-SELECT * FROM lords ORDER BY dept_no DESC;                  #to select only the unique values in column 'dept_no' in decending order
-SELECT TOP(2) * FROM lords ORDER BY dept_no DESC;           #to retrieve all columns & bottom 2 rows
+--To SELECT (fetch) datas from a table
+SELECT * FROM lords;                                                           --to retrieve all rows & all columns
+SELECT TOP(2) * FROM lords;                                                    --to retrieve all columns & top 2 rows
+SELECT dept_no, location FROM lords;                                           --to select required columns & all rows
+SELECT dept_no AS Department_number, location FROM lords;                      --to provide an alias to the selected column, here 'dept_no' given an alias of 'Department_number'
+SELECT * FROM lords ORDER BY dept_no ASC;                                      --to select only the unique values in column 'dept_no' in ascending order
+SELECT * FROM lords ORDER BY dept_no DESC;                                     --to select only the unique values in column 'dept_no' in decending order
+SELECT TOP(2) * FROM lords ORDER BY dept_no DESC;                              --to retrieve all columns & bottom 2 rows
 
-#FILTERING (LOGICAL: AND, OR, NOT)
-SELECT * FROM lords WHERE dept_no = 10 AND dept_name = 'sales';                #use of 'AND' operator
-SELECT * FROM lords WHERE dept_no = 10 OR dept_name = 'sales';                 #use of 'OR' operator
-SELECT * FROM lords WHERE location NOT IN ('CCU');                             #use of 'NOT' operator
-SELECT dept_no, location FROM lords WHERE location NOT IN ('MAA', 'CCU');      #use of 'NOT IN' operator/ opposite of 'IN' operator
+--FILTERING (LOGICAL: AND, OR, NOT)
+SELECT * FROM lords WHERE dept_no = 10 AND dept_name = 'sales';                --use of 'AND' operator
+SELECT * FROM lords WHERE dept_no = 10 OR dept_name = 'sales';                 --use of 'OR' operator
+SELECT * FROM lords WHERE location NOT IN ('CCU');                             --use of 'NOT' operator
+SELECT dept_no, location FROM lords WHERE location NOT IN ('MAA', 'CCU');      --use of 'NOT IN' operator/ opposite of 'IN' operator
 
-#FILTERING (COMPARISION: =, !=, >, <, >=, <=, LIKE, BETWEEN, IN)
+--FILTERING (COMPARISION: =, !=, >, <, >=, <=, LIKE, BETWEEN, IN)
 create table employee
 (emp_id int primary key,
 first_name varchar(50) not null,
@@ -137,7 +137,7 @@ hire_date date,
 job varchar(50),
 dept_no int,
 salary int
-);                                                                                                      #create a table 'employee' first & insert 9 values into each column
+);                                                                                                           --create a table 'employee' first & insert 9 values into each column
 insert into employee values (101, 'Avra', 'Dey', null, null, null, 'j7', 10, null);
 insert into employee values (102, 'Deepu', 'Nayak', 1001, null, null, 'j2', 10, null);
 insert into employee values (103, 'Soumava', 'Banerjee', 1001, null, null, 'j3', 10, null);
@@ -148,33 +148,33 @@ insert into employee values (107, 'Nayan', 'Chak', 1006, null, '2016-09-14', 'j1
 insert into employee values (108, 'Bikko', 'Ghosh', 1006, null, null, 'j8', 40, null);
 insert into employee values (109, 'Soyel', 'Ghosh', null, null, null, 'j7', 30, null);
 
-SELECT * FROM employee WHERE salary BETWEEN 30000 AND 40000;                                           #use of 'BETWEEN' & 'AND' operator, returns two rows 'subha' & 'gargi'
-SELECT * FROM lords WHERE location IN ('MAA', 'CCU');                                                  #use of 'IN' operator
-SELECT * FROM employee WHERE salary > 20000;                                                           #use of ' > ' operator, returns 3 records(gargi, subha, nayan)
-SELECT * FROM employee WHERE salary >= 40000;                                                          #use of ' >= ' operator, returns 1 record(subha)
-SELECT * FROM EMPLOYEE WHERE SALARY IS NULL;                                                           #use of 'IS' operator, also indicating SQL is not case sensitive
-SELECT * FROM employee WHERE salary IS NOT NULL;                                                       #use of 'IS NOT' operator
+SELECT * FROM employee WHERE salary BETWEEN 30000 AND 40000;                                              --use of 'BETWEEN' & 'AND' operator, returns two rows 'subha' & 'gargi'
+SELECT * FROM lords WHERE location IN ('MAA', 'CCU');                                                     --use of 'IN' operator
+SELECT * FROM employee WHERE salary > 20000;                                                              --use of ' > ' operator, returns 3 records(gargi, subha, nayan)
+SELECT * FROM employee WHERE salary >= 40000;                                                             --use of ' >= ' operator, returns 1 record(subha)
+SELECT * FROM EMPLOYEE WHERE SALARY IS NULL;                                                              --use of 'IS' operator, also indicating SQL is not case sensitive
+SELECT * FROM employee WHERE salary IS NOT NULL;                                                          --use of 'IS NOT' operator
 
-#LIKE operator (to search records that are begining or ending with a perticular letter)
-SELECT * FROM lords WHERE location LIKE 'C%';                                                      #to search for records whose 'location' is starting with 'C'
-SELECT * FROM lords WHERE location LIKE '%A';                                                      #to search for records whose 'location' is ending with 'A'
-SELECT * FROM lords WHERE location LIKE 'B%M';                                                     #to search for records whose 'location' is starting with 'B' & ending with 'M'
+--LIKE operator (to search records that are begining or ending with a perticular letter)
+SELECT * FROM lords WHERE location LIKE 'C%';                                                     --to search for records whose 'location' is starting with 'C'
+SELECT * FROM lords WHERE location LIKE '%A';                                                     --to search for records whose 'location' is ending with 'A'
+SELECT * FROM lords WHERE location LIKE 'B%M';                                                    --to search for records whose 'location' is starting with 'B' & ending with 'M'
 
-#CASE expression (WHEN-ELSE statements(like if-else))
+--CASE expression (WHEN-ELSE statements(like if-else))
 SELECT CASE (location)
 WHEN 'MAA' THEN 'Tamil Nadu'
 WHEN 'BOM' THEN 'Maharashtra'
 ELSE 'No idea'
 END
-FROM lords;                                                                   #shows 'MAA' as 'Tamil Nadu', 'BOM' as 'Maharashtra' & 'CCU' as 'No idea'
+FROM lords;                                                                                       --shows 'MAA' as 'Tamil Nadu', 'BOM' as 'Maharashtra' & 'CCU' as 'No idea'
 
-#JOINS (self, inner, left, right, full-outer, cross)- fetch/ combine data from 2 or more tables
+--JOINS (self, inner, left, right, full-outer, cross)- fetch/ combine data from 2 or more tables
 create table employ
 (emp_id int primary key,
 first_name varchar(50) not null,
 last_name varchar(50) not null,
 address varchar(50)
-);                                                                            #table 'employ' was created & the below 6 values were inserted
+);                                                                                                --table 'employ' was created & the below 6 values were inserted
 insert into employ values (101, 'Avra', 'Dey', 'Asansol'); 
 insert into employ values (102, 'Deepu', 'Nayak', 'Durgapur');
 insert into employ values (103, 'Subha', 'Mitra', 'Kasba');
@@ -185,7 +185,7 @@ create table orderss
 (order_id int primary key,
 emp_id int,
 order_date date
-);                                                                            #table 'orderss' was created & the below 5 values were inserted 
+);                                                                                                --table 'orderss' was created & the below 5 values were inserted 
 insert into orderss values (1, 104, '2020-05-23');
 insert into orderss values (2, 102, '2020-07-18');
 insert into orderss values (3, 105, '2020-05-16');
@@ -196,36 +196,36 @@ SELECT employ.emp_id, orderss.order_id, orderss.order_date
 FROM employ
 INNER JOIN orderss
 ON employ.emp_id = orderss.emp_id
-ORDER BY employ.emp_id;                                                       #applying 'INNER JOIN'
+ORDER BY employ.emp_id;                                                                           --applying 'INNER JOIN'
 
 SELECT e.emp_id, o.order_id, o.order_date
 FROM employ AS e
 INNER JOIN orderss AS O
 ON e.emp_id = o.emp_id
-ORDER BY e.emp_id;                                                            #applying 'INNER JOIN' using table aliases 'e' & 'o'
+ORDER BY e.emp_id;                                                                                --applying 'INNER JOIN' using table aliases 'e' & 'o'
 
 SELECT employ.emp_id, orderss.order_id, orderss.order_date
 FROM employ
 LEFT OUTER JOIN orderss
 ON employ.emp_id = orderss.emp_id
-ORDER BY employ.emp_id;                                                       #appyling 'LEFT OUTER JOIN', returning all values from'employ' table & putting 'NULL' where data is not there in 'orderss' table
+ORDER BY employ.emp_id;                         --appyling 'LEFT OUTER JOIN', returning all values from'employ' table & putting 'NULL' where data is not there in 'orderss' table
 
 SELECT employ.emp_id, orderss.order_id, orderss.order_date
 FROM employ
 RIGHT OUTER JOIN orderss
 ON employ.emp_id = orderss.emp_id
-ORDER BY employ.emp_id;                                                       #appyling 'RIGHT OUTER JOIN'
+ORDER BY employ.emp_id;                                                                           --appyling 'RIGHT OUTER JOIN'
 
 SELECT employ.emp_id, orderss.order_id, orderss.order_date
 FROM employ
 FULL OUTER JOIN orderss
 ON employ.emp_id = orderss.emp_id
-ORDER BY employ.emp_id;                                                       ##appyling 'FULL OUTER JOIN', returns 7 rows
+ORDER BY employ.emp_id;                                                                           --appyling 'FULL OUTER JOIN', returns 7 rows
 
 SELECT employ.emp_id, orderss.order_id, orderss.order_date
 FROM employ
 CROSS JOIN orderss
-ORDER BY employ.emp_id;                                                       #applying 'CROSS JOIN', shows output of 30 abservation as 'employ' table has 6 records and 'orderss' has 5
+ORDER BY employ.emp_id;                                               --applying 'CROSS JOIN', shows output of 30 abservation as 'employ' table has 6 records and 'orderss' has 5
 
 #BUILT-IN functions (COVERSION, LOGICAL, MATH, AGGREGATE, STRING, DATE)
 select CAST ('10' AS int) * 20 AS casting,
