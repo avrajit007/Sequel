@@ -1,7 +1,7 @@
-#To create a DATABASE
+--To create a DATABASE
 create database Test_data #select all the press execute or F5
 
-#To create a TABLE 'emp' in the database 'Test_data'
+--To create a TABLE 'emp' in the database 'Test_data'
 use Test_data
 create table emp
 (
@@ -10,17 +10,17 @@ last_name varchar(50) NOT NULL, #not null- to make entry in the column mandatory
 first_name varchar(50) NOT NULL,
 ); 
 
-#ALTER TABLE
+--ALTER TABLE
 alter table emp add age int #to add a new column with datatype INT
 
 alter table emp drop column last_name #to delete a column (dont mention data type here, else error)
 
 alter table emp alter column age numeric(10) #to alter the 'datatype' the column
 
-#To delete a table (DROP A TABLE)
+--To delete a table (DROP A TABLE)
 drop table emp;
 
-#To create a PRIMARY KEY
+--To create a PRIMARY KEY
 create table test1    #name of the new table is 'test1'
 (
 emp_id int primary key,
@@ -28,13 +28,13 @@ last_name varchar(50) NOT NULL,
 first_name varchar(50) NOT NULL,
 );
 
-#OR (this method is used to make multiple columns, the PRIMARY KEY- CANDIDATE KEY)
-create table test2    #name of the table is 'test2'
+--OR (this method is used to make multiple columns, the PRIMARY KEY- CANDIDATE KEY)
+create table test2                                                                             --name of the table is 'test2'
 (
 emp_id int,
 last_name varchar(50) NOT NULL,
 first_name varchar(50) NOT NULL,
-constraint emp_pk primary key (emp_id)  #the name of the constraint is 'emp_pk', table name is 'emp_id'
+constraint emp_pk primary key (emp_id)                                                         --the name of the constraint is 'emp_pk', table name is 'emp_id'
 );
 
 create table test3
@@ -42,14 +42,14 @@ create table test3
 emp_id int,
 last_name varchar(50) NOT NULL,
 first_name varchar(50) NOT NULL,
-constraint emp_pk1 primary key (last_name, first_name) #both 'last_name, first_name' is the Primary Key i.e. Candidate key
+constraint emp_pk1 primary key (last_name, first_name)                                         --both 'last_name, first_name' is the Primary Key i.e. Candidate key
 );
 
-#To create PRIMARY KEY later, after creating the table
-alter table emp1 add constraint emp_pk2 primary key (emp_id);  #'emp_pk2' is the name of the constraint (but create the 'emp1' table first)
-                                                               #NOTE- this method can be only used if it was specified that column 'emp_id' is NOT NULL
+--To create PRIMARY KEY later, after creating the table
+alter table emp1 add constraint emp_pk2 primary key (emp_id);                                  --'emp_pk2' is the name of the constraint (but create the 'emp1' table first)
+                                                                                        --NOTE- this method can be only used if it was specified that column 'emp_id' is NOT NULL
 
-#FOREIGN KEY- create a panent table (product) first then create a constraint in the child table (orders)
+--FOREIGN KEY- create a panent table (product) first then create a constraint in the child table (orders)
 create table product
 (prod_id int primary key,
 prod_name varchar(50) not null,
@@ -59,54 +59,54 @@ create table orders
 (order_id int primary key,
 prod_id int not null,
 quantity int,
-constraint prod_fk              #'prod_fk' is the name of the constraint
-foreign key (prod_id)           #name of the column of the child table (orders)
-references product (prod_id)    # name of the parent table (product) which is referenced & name of the column of the parent table (prod_id)
+constraint prod_fk                                                                            --'prod_fk' is the name of the constraint
+foreign key (prod_id)                                                                         --name of the column of the child table (orders)
+references product (prod_id)                                        --name of the parent table (product) which is referenced & name of the column of the parent table (prod_id)
 );
 
-#To create FOREIGN KEY once the table has been created already
-alter table order               #dont use the same child table 'order', create a child table of new name
-add constraint prod_fk1         #the name of the constraint 'prod_fk1' has to be new
-foreign key (prod_id)           #the datatype of the 'column of the parent table' &'column of the child table' has to be same
+--To create FOREIGN KEY once the table has been created already
+alter table order                                                                              --dont use the same child table 'order', create a child table of new name
+add constraint prod_fk1                                                                        --the name of the constraint 'prod_fk1' has to be new
+foreign key (prod_id)                                                              --the datatype of the 'column of the parent table' &'column of the child table' has to be same
 references product (prod_id);
 
-#To CREATE VIEW (not a table, acts as virtual table)
-CREATE VIEW tview AS SELECT * FROM product;                     #name of the view is 'tview', * for all columns, name of the existing table is 'product'
+--To CREATE VIEW (not a table, acts as virtual table)
+CREATE VIEW tview AS SELECT * FROM product;                                        --name of the view is 'tview', * for all columns, name of the existing table is 'product'
 
-CREATE VIEW tview1 AS SELECT prod_id, category FROM product;    #name of the view is 'tview1', 'prod_id, category' are the columns required to view, from the table 'product'
+CREATE VIEW tview1 AS SELECT prod_id, category FROM product;       --name of the view is 'tview1', 'prod_id, category' are the columns required to view, from the table 'product'
 
-#To INSERT data into table 'dept'
+--To INSERT data into table 'dept'
 create table dept
 (dept_no int,
 dept_name varchar(50) not null
 location varchar(50)
-);                                                              #table named 'dept' was created first
-INSERT INTO dept (dept_no, dept_name) VALUES (20, 'sales');     #values inserted, to view the values-right click the table and select 'SELECT TOP 1000 ROWS'
-#OR
-INSERT INTO dept VALUES (20, 'sales','ccu');                    #if inserting value to all columns, no need to mention column names inside the bracket 
+);                                                                                             --table named 'dept' was created first
+INSERT INTO dept (dept_no, dept_name) VALUES (20, 'sales');                         --values inserted, to view the values-right click the table and select 'SELECT TOP 1000 ROWS'
+--OR
+INSERT INTO dept VALUES (20, 'sales','ccu');                                             --if inserting value to all columns, no need to mention column names inside the bracket 
 
-#To INSERT values from another table
+--To INSERT values from another table
 create table dept1
 (dept_no INT,
 dept_name varchar(50),
 location varchar(50)
-);                                                                                        #create a table 'dept1' to copy from table 'dept'
-INSERT INTO dept1 (dept_no, dept_name,location) SELECT * FROM dept;                       #'*' is to copy all values
-INSERT INTO dept1 (dept_no,dept_name) SELECT dept_name FROM dept;                         #to copy only values of specific columns like 'dept_name' column
-INSERT INTO dept1 (dept_no, dept_name,location) SELECT * FROM dept WHERE dept_no > 10;    #to copy selctive data
+);                                                                                                            --create a table 'dept1' to copy from table 'dept'
+INSERT INTO dept1 (dept_no, dept_name,location) SELECT * FROM dept;                                           --'*' is to copy all values
+INSERT INTO dept1 (dept_no,dept_name) SELECT dept_name FROM dept;                                             --to copy only values of specific columns like 'dept_name' column
+INSERT INTO dept1 (dept_no, dept_name,location) SELECT * FROM dept WHERE dept_no > 10;                        --to copy selctive data
 
-#To UPDATE data in a table (modify existing data- very important to provide condition, else all rows will be affected)
+--To UPDATE data in a table (modify existing data- very important to provide condition, else all rows will be affected)
 create table lords
 (dept_no INT NOT NULL,
 dept_name varchar(50),
 location varchar(50)
-);                                                           #new table named 'lords' created and 4 values were inserted
+);                                                                                                            --new table named 'lords' created and 4 values were inserted
 insert into lords values (10,'accounts','MAA');
 insert into lords values (20,'HR','BOM');
 insert into lords values (30,'IT','BLR');
 insert into lords values (10,'marketing','CCU');
 
-UPDATE lords SET dept_name = 'sales' where dept_no = 20;     #modified the value in 'dept_name' column where 'dept_no' is 20
+UPDATE lords SET dept_name = 'sales' where dept_no = 20;                                                      --modified the value in 'dept_name' column where 'dept_no' is 20
 
 #To DELETE rows/records (condition giving is important else all the records will be deleted)
 DELETE FROM lords WHERE dept_no = 30;      #entire row is deleted from table 'lords' whose 'dept_no' is '30'
