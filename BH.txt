@@ -7,3 +7,14 @@ users_user.name "Action_owner"
 from customer_invoicehistory
 left join customer_customerinvoice on customer_invoicehistory.invoice_id = customer_customerinvoice.id
 left join users_user on customer_invoicehistory.action_owner_id = users_user.id
+
+
+
+
+select to_char(oo.date_placed, 'dd-mm-yyyy') "Date", oo.id, oo.number as AWB_number, oo.status order_status, cc.name as customer, ac.name as city, oo.source, oe.status as event_status, st_x(oe.current_location) as delivered_long, st_y(oe.current_location) as delivered_lat
+from order_order oo
+join address_city ac on ac.id = oo.city_id
+join customer_customer cc on cc.id = oo.customer_id
+join order_event oe on oe.order_id = oo.id
+where order_type = 'shipment' and cc.name = 'APOLLO PHARMACIES LIMITED'
+order by ac.name, oo.id desc, oe.created_date
