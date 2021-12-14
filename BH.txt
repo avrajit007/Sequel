@@ -1,0 +1,9 @@
+select customer_invoicehistory.id "invoice_history_id", customer_customerinvoice.invoice_number "Invoice_no", 
+to_char(customer_invoicehistory.created_time, 'dd-mm-yyyy') "Sent_to_cus_date",
+customer_customerinvoice.invoice_date "Invoice_date",
+customer_invoicehistory.old_status "Old_status", 
+customer_invoicehistory.new_status "current_status",
+users_user.name "Action_owner"
+from customer_invoicehistory
+left join customer_customerinvoice on customer_invoicehistory.invoice_id = customer_customerinvoice.id
+left join users_user on customer_invoicehistory.action_owner_id = users_user.id
