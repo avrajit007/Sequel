@@ -18,3 +18,35 @@ join customer_customer cc on cc.id = oo.customer_id
 join order_event oe on oe.order_id = oo.id
 where order_type = 'shipment' and cc.name = 'APOLLO PHARMACIES LIMITED'
 order by ac.name, oo.id desc, oe.created_date
+
+
+
+
+WITH supervisor_cte AS
+(SELECT users_user.id "uID", users_user.name "scontact", address_hub.id "hid"
+FROM address_hub_supervisors
+LEFT JOIN users_user ON users_user.id = address_hub_supervisors.user_id
+LEFT JOIN address_hub ON address_hub.id = address_hub_supervisors.hub_id),
+
+associate_cte AS
+(SELECT users_user.id "uID", users_user.name "acontact", address_hub.id "hid"
+FROM address_hub_associates
+LEFT JOIN users_user ON users_user.id = address_hub_associates.user_id
+LEFT JOIN address_hub ON address_hub.id = address_hub_associates.hub_id),
+
+hubcontact_cte AS
+(SELECT users_user.id "uID", users_user.name "hcontact", address_hub.id "hid"
+FROM address_hub_customer_hub_contact
+LEFT JOIN users_user ON users_user.id = address_hub_customer_hub_contact.customerhubcontact_id
+LEFT JOIN address_hub ON address_hub.id = address_hub_customer_hub_contact.hub_id)
+
+SELECT address_hub.Name "Hub Name", address_hub.awb_code "Hub Short Identifier for AWB", address_city.Name "City", address_hub.store_code "Store Code",
+address_hub.pincodes "Pincodes", customer_customer.Name "Customer", address_hub.client_billing_code "Client Billing Code", address_hub.shipping_code "Shipping Code",
+address_hub.Coverage "Coverage", address_hub.extended_coverage "Extended Coverage",
+supervisor_cte.scontact "Supervisor Contact", associate_cte.acontact "Associate Contact", hubcontact_cte.hcontact "Customer Hub Contact"
+FROM address_hub
+LEFT JOIN address_city ON address_hub.city_id = address_city.id
+LEFT JOIN customer_customer ON address_hub.customer_id = customer_customer.id
+LEFT JOIN supervisor_cte ON address_hub.id = supervisor_cte.hid
+LEFT JOIN associate_cte ON address_hub.id = associate_cte.hid
+LEFT JOIN hubcontact_cte ON address_hub.id = hubcontact_cte.hid
