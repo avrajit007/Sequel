@@ -50,3 +50,39 @@ LEFT JOIN customer_customer ON address_hub.customer_id = customer_customer.id
 LEFT JOIN supervisor_cte ON address_hub.id = supervisor_cte.hid
 LEFT JOIN associate_cte ON address_hub.id = associate_cte.hid
 LEFT JOIN hubcontact_cte ON address_hub.id = hubcontact_cte.hid
+
+
+
+
+select fod."First Out-For-Delivery Datetime" as "First Out-For-Delivery Datetime", 
+
+lod."Latest Out-For-Delivery Datetime" as "Latest Out-For-Delivery Datetime",
+
+(case when atp."First Attempted Datetime"  is null then (case when dlv."Delivered Datetime" is null then ret."Returned Datetime" else dlv."Delivered Datetime" end) else atp."First Attempted Datetime"  end) as "First Attempted Datetimes", 
+
+(case when ret."Returned Datetime" is null then (case when dlv."Delivered Datetime" is null then ltp."Latest Attempted Datetime" else dlv."Delivered Datetime" end) else ret."Returned Datetime" end) as "Latest Attempted Datetimes",
+from da
+left join pck on pck."Order Id" = da."Order Id"
+where oo.order_type = 'shipment' and oo.status != 'Dummy' and c.contract_type = 'Shipment' and oo.updated_time::Date between {{start}} and {{end}}
+[[and ac.name = {{city}}]] [[and oo.status = {{status}}]] [[and oo.number = {{number}}]] [[ and lower(cc.name) like '%' || {{customer}} || '%' ]]
+
+
+
+
+select 
+(to_char(oo.date_placed,'dd-mm-yyyy')  ||' '||to_char(oo.date_placed,'HH24:MI')) "Date Placed",  
+
+(pa.line1 ||' '|| pa.line2 || ' '|| pa.line3 || ' '|| pa.line4) "Pickup Address", 
+
+(sa.title ||' '|| sa.first_name || ' '|| sa.last_name) "Customer Name", sa.phone_number "Customer Phone", dd.name || ' | ' || vv.registration_certificate_number "Driver Vehicle",
+
+(sa.line1 ||' '|| sa.line2 || ' '|| sa.line3 || ' '|| sa.line4) "Customer Address", 
+(to_char(dt."Pick Up Datetime",'dd-mm-yyyy')  ||' '||to_char(dt."Pick Up Datetime",'HH24:MI')) "Picked on", 
+(to_char(dt."First Attempted Datetimes",'dd-mm-yyyy')  ||' '||to_char(dt."First Attempted Datetimes",'HH24:MI')) "First attempted on",
+(to_char(dt."Latest Attempted Datetimes",'dd-mm-yyyy')  ||' '||to_char(dt."Latest Attempted Datetimes",'HH24:MI')) "Last attempted on", 
+(to_char(dt."First Out-For-Delivery Datetime",'dd-mm-yyyy')  ||' '||to_char(dt."First Out-For-Delivery Datetime",'HH24:MI')) "First Out-For-Delivery on",
+(to_char(dt."Latest Out-For-Delivery Datetime",'dd-mm-yyyy')  ||' '||to_char(dt."Latest Out-For-Delivery Datetime",'HH24:MI')) "Latest Out-For-Delivery on", 
+(to_char(dt."Delivered Datetime",'dd-mm-yyyy')  ||' '||to_char(dt."Delivered Datetime",'HH24:MI')) "Delivered on",
+
+from order_order oo
+left join dt on dt."Order Number" = oo.number
