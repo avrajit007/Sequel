@@ -1,3 +1,5 @@
+--TO_CHAR
+
 select customer_invoicehistory.id "invoice_history_id", customer_customerinvoice.invoice_number "Invoice_no", 
 to_char(customer_invoicehistory.created_time, 'dd-mm-yyyy') "Sent_to_cus_date",
 customer_customerinvoice.invoice_date "Invoice_date",
@@ -9,7 +11,9 @@ left join customer_customerinvoice on customer_invoicehistory.invoice_id = custo
 left join users_user on customer_invoicehistory.action_owner_id = users_user.id
 
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+--LAT & LONG
 
 select to_char(oo.date_placed, 'dd-mm-yyyy') "Date", oo.id, oo.number as AWB_number, oo.status order_status, cc.name as customer, ac.name as city, oo.source, oe.status as event_status, st_x(oe.current_location) as delivered_long, st_y(oe.current_location) as delivered_lat
 from order_order oo
@@ -20,7 +24,9 @@ where order_type = 'shipment' and cc.name = 'APOLLO PHARMACIES LIMITED'
 order by ac.name, oo.id desc, oe.created_date
 
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+--CTE
 
 WITH supervisor_cte AS
 (SELECT users_user.id "uID", users_user.name "scontact", address_hub.id "hid"
@@ -52,7 +58,37 @@ LEFT JOIN associate_cte ON address_hub.id = associate_cte.hid
 LEFT JOIN hubcontact_cte ON address_hub.id = hubcontact_cte.hid
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+--CASE WHEN ELSE END
+
+select customer_id, taxable_amount
+
+, CASE
+when taxable_amount > 10000 then 'High bill'
+else 'Low bill'
+
+end "Bill type"
+
+from customer_customerinvoice
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--DISTINCT COUNT & BETWEEN
+
+select city_id, count(distinct(customer_id))
+from order_order
+
+where to_char(date_placed, 'dd-mm-yyyy')
+
+between '01-12-2021' and '5-12-2021'
+
+group by city_id
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--FILTER
 
 select fod."First Out-For-Delivery Datetime" as "First Out-For-Delivery Datetime", 
 
