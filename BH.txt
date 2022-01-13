@@ -9,7 +9,14 @@ users_user.name "Action_owner"
 from customer_invoicehistory
 left join customer_customerinvoice on customer_invoicehistory.invoice_id = customer_customerinvoice.id
 left join users_user on customer_invoicehistory.action_owner_id = users_user.id
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+--CONCATENATION
+
+select taxable_amount||' , '||status 
+"Concat"
+
+from customer_customerinvoice
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
