@@ -94,7 +94,7 @@ group by city_id
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
---RANK FUNCTION
+--DENSE RANK & rank
 
 select customer_id, taxable_amount,
 
@@ -103,7 +103,12 @@ RANK () OVER (order by taxable_amount desc)
 from customer_customerinvoice
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+select customer_id, taxable_amount, invoice_type
 
+RANK () OVER (partition by invoice_type order by taxable_amount desc)
+
+from customer_customerinvoice
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --FILTER
 
 select fod."First Out-For-Delivery Datetime" as "First Out-For-Delivery Datetime", 
