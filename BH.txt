@@ -96,16 +96,16 @@ group by city_id
 
 --DENSE RANK & rank
 
-select customer_id, taxable_amount,
+select customer_id, taxable_amount
 
-RANK () OVER (order by taxable_amount desc)
+, RANK () OVER (order by taxable_amount desc)
 
 from customer_customerinvoice
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 select customer_id, taxable_amount, invoice_type
 
-RANK () OVER (partition by invoice_type order by taxable_amount desc)
+, RANK () OVER (partition by invoice_type order by taxable_amount desc)
 
 from customer_customerinvoice
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -143,3 +143,16 @@ select
 
 from order_order oo
 left join dt on dt."Order Number" = oo.number
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- LAG & PARTITION
+
+select emp_id, punch_type, time
+
+, LAG(time, 1) OVER (PARTITION BY emp_id order by time) "ptime"
+, LAG(punch_type, 1) OVER (PARTITION BY emp_id order by punch_type) "ptype"
+
+from employee
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
