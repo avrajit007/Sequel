@@ -94,7 +94,7 @@ group by city_id
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
---DENSE RANK & rank
+--DENSE RANK & RANK
 
 select customer_id, taxable_amount
 
@@ -103,11 +103,15 @@ select customer_id, taxable_amount
 from customer_customerinvoice
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--RANK & PARTITION BY
+
 select customer_id, taxable_amount, invoice_type
 
 , RANK () OVER (partition by invoice_type order by taxable_amount desc)
 
 from customer_customerinvoice
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --FILTER
 
