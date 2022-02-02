@@ -22,7 +22,8 @@ from customer_customerinvoice
 
 --LAT & LONG
 
-select to_char(oo.date_placed, 'dd-mm-yyyy') "Date", oo.id, oo.number as AWB_number, oo.status order_status, cc.name as customer, ac.name as city, oo.source, oe.status as event_status, st_x(oe.current_location) as delivered_long, st_y(oe.current_location) as delivered_lat
+select to_char(oo.date_placed, 'dd-mm-yyyy') "Date", oo.id, oo.number as AWB_number, oo.status order_status, cc.name as customer, ac.name as city, oo.source, 
+oe.status as event_status, st_x(oe.current_location) as delivered_long, st_y(oe.current_location) as delivered_lat
 from order_order oo
 join address_city ac on ac.id = oo.city_id
 join customer_customer cc on cc.id = oo.customer_id
