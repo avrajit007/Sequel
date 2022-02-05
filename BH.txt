@@ -68,7 +68,7 @@ LEFT JOIN hubcontact_cte ON address_hub.id = hubcontact_cte.hid
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
---CASE WHEN ELSE END
+--CASE WHEN THEN ELSE END
 
 select customer_id, taxable_amount
 
