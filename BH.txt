@@ -114,6 +114,20 @@ select customer_id, taxable_amount, invoice_type
 from customer_customerinvoice
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--CAST & convert (one datatype to another)
+
+select customer_id, taxable_amount,
+cast(taxable_amount as float) * 10
+from customer_customerinvoice
+
+
+select id, created_date,
+cast(created_date as varchar)
+from order_order
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 --FILTER
 
 select fod."First Out-For-Delivery Datetime" as "First Out-For-Delivery Datetime", 
