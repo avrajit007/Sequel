@@ -175,3 +175,70 @@ select emp_id, punch_type, time
 from employee
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--1621 QUERY
+
+with t_cte as
+(select 
+trip_trip.id "tid", trip_trip.trip_number "tno", driver_driver.name "dname", driver_driver.driver_vehicle "vno"
+
+from trip_trip
+
+left join driver_driver
+on trip_trip.driver_id = driver_driver.id),
+
+o_cte as
+(select 
+order_order.id "oid", order_order.reference_number "orn", address_city.name "city", address_hub.name "dhub", customer_customer.id "cid", customer_customer.name "cname",
+order_order.number "ono", order_order.customer_reference_number "crn", order_order.date_placed "odp"
+
+from order_order
+
+left join address_city on address_city.id = order_order.city_id
+left join address_hub on address_hub.id = order_order.hub_id
+left join customer_customer on customer_customer.id = order_order.customer_id),
+
+d_date as
+(select order_id "oid", max(time) "deliverd_date"
+from order_event
+where status =  'Delivered' 
+group by order_id),
+
+
+d_dch as
+(select 
+driver_cashhandover.id "cid", users_user.email "email"
+
+from driver_cashhandover
+
+left join users_user on users_user.id = driver_cashhandover.collected_by_id),
+
+o_oph as
+(select 
+order_orderpaymenthistory.order_id "oid", users_user.email "last_modified_by", max(order_orderpaymenthistory.modified_date) "date_modified"
+
+from order_orderpaymenthistory
+left join users_user on users_user.id = order_orderpaymenthistory.modified_by_id
+group by order_orderpaymenthistory.order_id, users_user.id)
+
+
+
+select 
+o_cte.cname "Customer", o_cte.city "City", o_cte.dhub "Delivery hub" , o_cte.ono "Order no", o_cte.orn "Order Reference", o_cte.crn "Customer Refrence" , 
+to_char(o_cte.odp, 'dd-mm-yyyy') "Order Placed", 
+to_char(d_date.deliverd_date, 'dd-mm-yyyy') "Delivered Date", payment_ordercodpayment.status "COD status", payment_ordercodpayment.amount "COD amount", 
+payment_ordercodpayment.utr "UTR Number", payment_ordercodpayment.ack_ref "Ack no",  d_dch.email "Handover Email",
+t_cte.tno "Trip no", t_cte.dname "Driver Name",
+t_cte.vno "Vehicle no", o_oph.last_modified_by "Last Modified By", to_char(o_oph.date_modified, 'dd-mm-yyyy') "Last Modified Date"
+
+from payment_ordercodpayment
+
+left join t_cte on t_cte.tid = payment_ordercodpayment.trip_id
+left join o_cte on o_cte.oid = payment_ordercodpayment.order_id
+left join d_dch on d_dch.cid = payment_ordercodpayment.cash_handover_id
+left join o_oph on o_oph.oid = payment_ordercodpayment.order_id
+left join d_date on d_date.oid = payment_ordercodpayment.order_id
+
+where [[d_date.deliverd_date::date between {{start}} and {{end}}]]
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
