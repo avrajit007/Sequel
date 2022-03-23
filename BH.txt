@@ -257,7 +257,8 @@ and omg.made::timestamp <= (current_date) + interval '9 hours'
 
 --DATE TRUNC
 
-
+where true 
+[[and date_trunc('day', created_date)::date between {{start_date}} and {{end_date}}]]
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
